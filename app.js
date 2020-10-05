@@ -1,9 +1,10 @@
 // var mysql = require("mysql");
-import mysql from "mysql";
+// import mysql from "mysql";
 // var inquirer = require("inquirer");
 import inquirer from "inquirer";
 // var conTab = require("console.table");
 import figlet from "figlet";
+// const ViewMod = require("");
 import viewMod from "./custom_modules/view_functions.js";
 import { testArray } from "./custom_modules/test_mod.js";
 
@@ -11,27 +12,7 @@ import { testArray } from "./custom_modules/test_mod.js";
 // console.log(viewMod);
 // console.log("TEST ARRAY!!!");
 // console.log(testArray);
-
-var connection = mysql.createConnection({
-  host: "localhost",
-
-  // Your port; if not 3306
-  port: 3306,
-
-  // Your username
-  user: "root",
-
-  // Your password
-  password: "judespass",
-  database: "employees_db",
-});
-
-connection.connect(function (err) {
-  if (err) throw err;
-  console.log("connected as id " + connection.threadId);
-  welcome();
-});
-
+welcome();
 function welcome() {
   // console.log("WELCOME MESSAGE HERE");
   console.log(
@@ -81,13 +62,17 @@ function showMainMenu() {
             console.log(response.viewAction);
 
             if (response.viewAction === "View all employees") {
-              viewAllEmployees();
+              viewMod.viewAllEmployees();
+              returnToMainMenu();
             } else if (response.viewAction === "View all managers") {
-              viewAllManagers();
+              viewMod.viewAllManagers();
+              returnToMainMenu();
             } else if (response.viewAction === "View all departments") {
               viewAllDepartments();
+              returnToMainMenu();
             } else if (response.viewAction === "View all roles") {
               viewAllRoles();
+              returnToMainMenu();
             }
           })
           .catch((err) => {
@@ -127,29 +112,29 @@ function returnToMainMenu() {
 //VIEW FUNCTIONS
 //================================================================
 
-function viewAllEmployees() {
-  connection.query("SELECT * FROM employees", function (err, results) {
-    if (err) throw err;
-    //success ACTION
-    else {
-      console.table(results);
-      returnToMainMenu();
-    }
-  });
-}
+// function viewAllEmployees() {
+//   connection.query("SELECT * FROM employees", function (err, results) {
+//     if (err) throw err;
+//     //success ACTION
+//     else {
+//       console.table(results);
+//       returnToMainMenu();
+//     }
+//   });
+// }
 
-function viewAllManagers() {
-  connection.query(
-    "SELECT id, first_name, last_name, role_id FROM employees WHERE is_manager=1",
-    function (err, results) {
-      if (err) throw err;
-      else {
-        console.table(results);
-        returnToMainMenu();
-      }
-    }
-  );
-}
+// function viewAllManagers() {
+//   connection.query(
+//     "SELECT id, first_name, last_name, role_id FROM employees WHERE is_manager=1",
+//     function (err, results) {
+//       if (err) throw err;
+//       else {
+//         console.table(results);
+//         returnToMainMenu();
+//       }
+//     }
+//   );
+// }
 
 function viewAllDepartments() {
   connection.query("SELECT * FROM departments", function (err, results) {
