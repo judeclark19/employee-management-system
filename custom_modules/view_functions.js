@@ -3,7 +3,6 @@ const viewMod = [
     viewAllEmployees: function () {
       connection.query("SELECT * FROM employees", function (err, results) {
         if (err) throw err;
-        //success ACTION
         console.table(results);
       });
     },
@@ -21,7 +20,6 @@ const viewMod = [
     viewAllDepartments: function () {
       connection.query("SELECT * FROM departments", function (err, results) {
         if (err) throw err;
-        //success ACTION
         console.table(results);
       });
     },
@@ -29,7 +27,6 @@ const viewMod = [
     viewAllRoles: function () {
       connection.query("SELECT * FROM roles", function (err, results) {
         if (err) throw err;
-        //success ACTION
         console.table(results);
       });
     },
@@ -37,12 +34,3 @@ const viewMod = [
 ];
 
 export { viewMod as default };
-// export function viewAllDepartments() {
-
-// export function viewAllRoles() {
-//   connection.query("SELECT * FROM roles", function (err, results) {
-//     if (err) throw err;
-//     //success ACTION
-//     console.table(results);
-//   });
-// }

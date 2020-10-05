@@ -7,7 +7,8 @@ import figlet from "figlet";
 import viewMod from "./custom_modules/view_functions.js";
 import { testArray } from "./custom_modules/test_mod.js";
 
-console.log(viewMod);
+//checking module connections
+// console.log(viewMod);
 // console.log("TEST ARRAY!!!");
 // console.log(testArray);
 
