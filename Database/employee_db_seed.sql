@@ -56,39 +56,40 @@ CREATE TABLE employees (
     last_name VARCHAR (30) NULL,
     role_id INT,
     manager_id INT,
+    is_manager BOOLEAN,
     FOREIGN KEY (role_id) REFERENCES roles(id),
     FOREIGN KEY (manager_id) REFERENCES employees(id),
     PRIMARY KEY (id)
 );
 
 INSERT INTO
-    employees (first_name, last_name, role_id)
+    employees (first_name, last_name, role_id, is_manager)
 VALUES
-    ("Marv", "Kent", 10),
-    ("Theodore", "Billingsly", 6),
-    ("Rudy", "Harlett", 18),
-    ("Blake", "McKernon", 5),
-    ("Jared", "Bastock", 9),
-    ("Katy", "Teasell", 17),
-    ("Laney", "Abbatucci", 7),
-    ("Elsa", "Kenrat", 8),
-    ("Georgia", "Bortolini", 13),
-    ("Lottie", "Whybrow", 4),
-    ("Hermine", "Goldhill", 2),
-    ("Derrick", "Garr", 16),
-    ("Jedediah", "Benito", 12),
-    ("Yelena", "Negri", 15),
-    ("Antonetta", "Moir", 20),
-    ("Eleanor", "Sinclair", 5),
-    ("Harriet", "Bilbey", 15),
-    ("Loni", "Kildahl", 3),
-    ("Dur", "Allsobrook", 15),
-    ("Erica", "Rodriguez", 16),
-    ("Revkah", "Seamer", 14),
-    ("Constantin", "Duprey", 1),
-    ("Allyn", "Povah", 11),
-    ("Stefanie", "Midlar", 19),
-    ("Enrika", "Soaper", 16);
+    ("Marv", "Kent", 10, TRUE),
+    ("Theodore", "Billingsly", 6, TRUE),
+    ("Rudy", "Harlett", 18, FALSE),
+    ("Blake", "McKernon", 5, FALSE),
+    ("Jared", "Bastock", 9, TRUE),
+    ("Katy", "Teasell", 17, TRUE),
+    ("Laney", "Abbatucci", 7, TRUE),
+    ("Elsa", "Kenrat", 8, TRUE),
+    ("Georgia", "Bortolini", 13, FALSE),
+    ("Lottie", "Whybrow", 4, FALSE),
+    ("Hermine", "Goldhill", 2, TRUE),
+    ("Derrick", "Garr", 16, FALSE),
+    ("Jedediah", "Benito", 12, FALSE),
+    ("Yelena", "Negri", 15, FALSE),
+    ("Antonetta", "Moir", 20, TRUE),
+    ("Eleanor", "Sinclair", 5, FALSE),
+    ("Harriet", "Bilbey", 15, FALSE),
+    ("Loni", "Kildahl", 3, TRUE),
+    ("Dur", "Allsobrook", 15, FALSE),
+    ("Erica", "Rodriguez", 16, FALSE),
+    ("Revkah", "Seamer", 14, FALSE),
+    ("Constantin", "Duprey", 1, FALSE),
+    ("Allyn", "Povah", 11, FALSE),
+    ("Stefanie", "Midlar", 19, FALSE),
+    ("Enrika", "Soaper", 16, FALSE);
 
 UPDATE
     employees
