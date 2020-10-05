@@ -48,8 +48,19 @@ function init() {
     .then(function (response) {
       //act with response data
       console.log(response.chooseAction);
+      if (response.chooseAction === "View all employees") {
+        viewAllEmployees();
+      }
     })
     .catch((err) => {
       if (err) throw err;
     });
+}
+
+function viewAllEmployees() {
+  connection.query("SELECT * FROM employees", function (err, results) {
+    if (err) throw err;
+    //success ACTION
+    console.table(results);
+  });
 }
