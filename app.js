@@ -19,14 +19,35 @@ var connection = mysql.createConnection({
 connection.connect(function (err) {
   if (err) throw err;
   console.log("connected as id " + connection.threadId);
-  init();
+  welcome();
 });
+
+function welcome() {
+  console.log("WELCOME MESSAGE HERE");
+  init();
+}
 
 function init() {
   inquirer
-    .prompt(//welcome, choose first action)
+    .prompt([
+      {
+        //welcome, choose first action
+        type: "list",
+        name: "chooseAction",
+        message: "Please choose an action:",
+        choices: [
+          "View all employees",
+          "View all departments",
+          "view all roles",
+          "add",
+          "remove",
+          "update",
+        ],
+      },
+    ])
     .then(function (response) {
       //act with response data
+      console.log(response.chooseAction);
     })
     .catch((err) => {
       if (err) throw err;
