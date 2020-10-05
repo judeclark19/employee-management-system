@@ -3,6 +3,7 @@ import mysql from "mysql";
 // var inquirer = require("inquirer");
 import inquirer from "inquirer";
 // var conTab = require("console.table");
+import figlet from "figlet";
 import { testArray } from "./custom_modules/test_mod.js";
 
 // console.log("TEST ARRAY!!!");
@@ -29,7 +30,17 @@ connection.connect(function (err) {
 });
 
 function welcome() {
-  console.log("WELCOME MESSAGE HERE");
+  // console.log("WELCOME MESSAGE HERE");
+  console.log(
+    figlet.textSync("EMS", {
+      font: "isometric3",
+      horizontalLayout: "default",
+      verticalLayout: "default",
+      width: 80,
+      whitespaceBreak: true,
+    })
+  );
+  console.log("Welcome to the Employee Management System.");
   showMainMenu();
 }
 
