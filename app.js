@@ -23,5 +23,12 @@ connection.connect(function (err) {
 });
 
 function init() {
-  //initialize program
+  inquirer
+    .prompt(//welcome, choose first action)
+    .then(function (response) {
+      //act with response data
+    })
+    .catch((err) => {
+      if (err) throw err;
+    });
 }
