@@ -65,30 +65,8 @@ function showMainMenu() {
 
 //FUNCTIONS
 //================================================================
-function viewAllEmployees() {
-  connection.query("SELECT * FROM employees", function (err, results) {
-    if (err) throw err;
-    //success ACTION
-    console.table(results);
-  });
-}
-
-function viewAllManagers() {
-  connection.query(
-    "SELECT id, first_name, last_name, role_id FROM employees WHERE is_manager=1",
-    function (err, results) {
-      if (err) throw err;
-      else {
-        console.table(results);
-        returnToMainMenu();
-      }
-    }
-  );
-}
 
 function returnToMainMenu() {
-  console.log("called returnToMainMenu");
-
   inquirer
     .prompt([
       {
@@ -107,27 +85,40 @@ function returnToMainMenu() {
     .catch(function (err) {
       if (err) throw err;
     });
-  // inquirer
-  //   .prompt([
-  //     {
-  //       type: "list",
-  //       name: "returnMainMenu",
-  //       choices: "Press enter to return to the main menu.",
-  //     },
-  //   ])
-  //   .then(function (answer) {
-  //     console.log(answer);
-  //   })
-  //   .catch((err) => {
-  //     if (err) throw err;
-  //   });
+}
+
+function viewAllEmployees() {
+  connection.query("SELECT * FROM employees", function (err, results) {
+    if (err) throw err;
+    //success ACTION
+    else {
+      console.table(results);
+      returnToMainMenu();
+    }
+  });
+}
+
+function viewAllManagers() {
+  connection.query(
+    "SELECT id, first_name, last_name, role_id FROM employees WHERE is_manager=1",
+    function (err, results) {
+      if (err) throw err;
+      else {
+        console.table(results);
+        returnToMainMenu();
+      }
+    }
+  );
 }
 
 function viewAllDepartments() {
   connection.query("SELECT * FROM departments", function (err, results) {
     if (err) throw err;
     //success ACTION
-    console.table(results);
+    else {
+      console.table(results);
+      returnToMainMenu();
+    }
   });
 }
 
@@ -135,6 +126,9 @@ function viewAllRoles() {
   connection.query("SELECT * FROM roles", function (err, results) {
     if (err) throw err;
     //success ACTION
-    console.table(results);
+    else {
+      console.table(results);
+      returnToMainMenu();
+    }
   });
 }
