@@ -37,6 +37,7 @@ function init() {
         message: "Please choose an action:",
         choices: [
           "View all employees",
+          "View all managers",
           "View all departments",
           "view all roles",
           "add",
@@ -50,6 +51,8 @@ function init() {
       console.log(response.chooseAction);
       if (response.chooseAction === "View all employees") {
         viewAllEmployees();
+      } else if (response.chooseAction === "View all managers") {
+        viewAllManagers();
       } else if (response.chooseAction === "View all departments") {
         viewAllDepartments();
       }
@@ -67,6 +70,16 @@ function viewAllEmployees() {
     //success ACTION
     console.table(results);
   });
+}
+
+function viewAllManagers() {
+  connection.query(
+    "SELECT id, first_name, last_name, role_id FROM employees WHERE is_manager=1",
+    function (err, results) {
+      if (err) throw err;
+      console.table(results);
+    }
+  );
 }
 
 function viewAllDepartments() {
