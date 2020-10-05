@@ -24,10 +24,10 @@ connection.connect(function (err) {
 
 function welcome() {
   console.log("WELCOME MESSAGE HERE");
-  init();
+  mainMenu();
 }
 
-function init() {
+function mainMenu() {
   inquirer
     .prompt([
       {
@@ -71,6 +71,20 @@ function viewAllEmployees() {
     if (err) throw err;
     //success ACTION
     console.table(results);
+    inquirer
+      .prompt([
+        {
+          type: "list",
+          name: "returnMainMenu",
+          choices: "Press enter to return to the main menu.",
+        },
+      ])
+      .then(function (answer) {
+        if (answer) mainMenu();
+      })
+      .catch((err) => {
+        if (err) throw err;
+      });
   });
 }
 
