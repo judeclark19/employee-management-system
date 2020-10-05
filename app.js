@@ -24,14 +24,13 @@ connection.connect(function (err) {
 
 function welcome() {
   console.log("WELCOME MESSAGE HERE");
-  mainMenu();
+  showMainMenu();
 }
 
-function mainMenu() {
+function showMainMenu() {
   inquirer
     .prompt([
       {
-        //welcome, choose first action
         type: "list",
         name: "chooseAction",
         message: "Please choose an action:",
@@ -71,20 +70,6 @@ function viewAllEmployees() {
     if (err) throw err;
     //success ACTION
     console.table(results);
-    inquirer
-      .prompt([
-        {
-          type: "list",
-          name: "returnMainMenu",
-          choices: "Press enter to return to the main menu.",
-        },
-      ])
-      .then(function (answer) {
-        if (answer) mainMenu();
-      })
-      .catch((err) => {
-        if (err) throw err;
-      });
   });
 }
 
@@ -93,9 +78,49 @@ function viewAllManagers() {
     "SELECT id, first_name, last_name, role_id FROM employees WHERE is_manager=1",
     function (err, results) {
       if (err) throw err;
-      console.table(results);
+      else {
+        console.table(results);
+        returnToMainMenu();
+      }
     }
   );
+}
+
+function returnToMainMenu() {
+  console.log("called returnToMainMenu");
+
+  inquirer
+    .prompt([
+      {
+        type: "list",
+        name: "confirm",
+        message: "Press enter to return to the main menu.",
+        choices: ["MAIN MENU"],
+      },
+    ])
+    .then(function (response) {
+      // console.log(response.confirm);
+      if (response.confirm) {
+        showMainMenu();
+      }
+    })
+    .catch(function (err) {
+      if (err) throw err;
+    });
+  // inquirer
+  //   .prompt([
+  //     {
+  //       type: "list",
+  //       name: "returnMainMenu",
+  //       choices: "Press enter to return to the main menu.",
+  //     },
+  //   ])
+  //   .then(function (answer) {
+  //     console.log(answer);
+  //   })
+  //   .catch((err) => {
+  //     if (err) throw err;
+  //   });
 }
 
 function viewAllDepartments() {
