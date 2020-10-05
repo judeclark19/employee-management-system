@@ -1,6 +1,12 @@
-var mysql = require("mysql");
-var inquirer = require("inquirer");
-var conTab = require("console.table");
+// var mysql = require("mysql");
+import mysql from "mysql";
+// var inquirer = require("inquirer");
+import inquirer from "inquirer";
+// var conTab = require("console.table");
+import { testArray } from "./custom_modules/test_mod.js";
+
+// console.log("TEST ARRAY!!!");
+// console.log(testArray);
 
 var connection = mysql.createConnection({
   host: "localhost",
@@ -33,7 +39,7 @@ function showMainMenu() {
       {
         type: "list",
         name: "chooseAction",
-        message: "Please choose an submenu to see possible actions:",
+        message: "Please choose a submenu to see possible actions:",
         choices: ["VIEW", "ADD", "REMOVE", "UPDATE"],
       },
     ])
