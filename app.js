@@ -50,6 +50,8 @@ function init() {
       console.log(response.chooseAction);
       if (response.chooseAction === "View all employees") {
         viewAllEmployees();
+      } else if (response.chooseAction === "View all departments") {
+        viewAllDepartments();
       }
     })
     .catch((err) => {
@@ -57,8 +59,18 @@ function init() {
     });
 }
 
+//FUNCTIONS
+//================================================================
 function viewAllEmployees() {
   connection.query("SELECT * FROM employees", function (err, results) {
+    if (err) throw err;
+    //success ACTION
+    console.table(results);
+  });
+}
+
+function viewAllDepartments() {
+  connection.query("SELECT * FROM departments", function (err, results) {
     if (err) throw err;
     //success ACTION
     console.table(results);
