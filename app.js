@@ -39,7 +39,7 @@ function init() {
           "View all employees",
           "View all managers",
           "View all departments",
-          "view all roles",
+          "View all roles",
           "add",
           "remove",
           "update",
@@ -55,6 +55,8 @@ function init() {
         viewAllManagers();
       } else if (response.chooseAction === "View all departments") {
         viewAllDepartments();
+      } else if (response.chooseAction === "View all roles") {
+        viewAllRoles();
       }
     })
     .catch((err) => {
@@ -84,6 +86,14 @@ function viewAllManagers() {
 
 function viewAllDepartments() {
   connection.query("SELECT * FROM departments", function (err, results) {
+    if (err) throw err;
+    //success ACTION
+    console.table(results);
+  });
+}
+
+function viewAllRoles() {
+  connection.query("SELECT * FROM roles", function (err, results) {
     if (err) throw err;
     //success ACTION
     console.table(results);
