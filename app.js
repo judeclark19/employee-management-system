@@ -33,29 +33,46 @@ function showMainMenu() {
       {
         type: "list",
         name: "chooseAction",
-        message: "Please choose an action:",
-        choices: [
-          "View all employees",
-          "View all managers",
-          "View all departments",
-          "View all roles",
-          "add",
-          "remove",
-          "update",
-        ],
+        message: "Please choose an submenu to see possible actions:",
+        choices: ["VIEW", "ADD", "REMOVE", "UPDATE"],
       },
     ])
     .then(function (response) {
       //act with response data
-      console.log(response.chooseAction);
-      if (response.chooseAction === "View all employees") {
-        viewAllEmployees();
-      } else if (response.chooseAction === "View all managers") {
-        viewAllManagers();
-      } else if (response.chooseAction === "View all departments") {
-        viewAllDepartments();
-      } else if (response.chooseAction === "View all roles") {
-        viewAllRoles();
+      // console.log(response.chooseAction);
+      if (response.chooseAction === "VIEW") {
+        // viewAllEmployees();
+        inquirer
+          .prompt([
+            {
+              type: "list",
+              name: "viewAction",
+              message: "Choose a view action:",
+              choices: [
+                "View all employees",
+                "View all managers",
+                "View all departments",
+                "View all roles",
+              ],
+            },
+          ])
+          .then((response) => {
+            //act on response
+            console.log(response.viewAction);
+
+            if (response.viewAction === "View all employees") {
+              viewAllEmployees();
+            } else if (response.viewAction === "View all managers") {
+              viewAllManagers();
+            } else if (response.viewAction === "View all departments") {
+              viewAllDepartments();
+            } else if (response.viewAction === "View all roles") {
+              viewAllRoles();
+            }
+          })
+          .catch((err) => {
+            if (err) throw err;
+          });
       }
     })
     .catch((err) => {
@@ -63,7 +80,7 @@ function showMainMenu() {
     });
 }
 
-//FUNCTIONS
+//NAV FUNCTIONS
 //================================================================
 
 function returnToMainMenu() {
@@ -86,6 +103,9 @@ function returnToMainMenu() {
       if (err) throw err;
     });
 }
+
+//VIEW FUNCTIONS
+//================================================================
 
 function viewAllEmployees() {
   connection.query("SELECT * FROM employees", function (err, results) {
@@ -132,3 +152,6 @@ function viewAllRoles() {
     }
   });
 }
+
+//INSERT FUNCTIONS
+//================================================================
