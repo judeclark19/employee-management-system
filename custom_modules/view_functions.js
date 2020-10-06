@@ -6,7 +6,7 @@ class ViewMod {
   }
 
   viewAllEmployees() {
-    connection.query("SELECT * FROM employees", function (err, results) {
+    return connection.query("SELECT * FROM employees", function (err, results) {
       if (err) throw err;
       console.table(results);
       // returnToMainMenu();
