@@ -7,13 +7,21 @@ import inquirer from "inquirer";
 // var renameMe = function () {
 //   return connection.query("SELECT * FROM roles");
 // }
-const rolesIds = [];
 const rolesTitles = [];
+const rolesIds = [];
+
+const managersNames = [];
+const managersIds = [];
 
 class AddMod {
   constructor(connection) {
     this.connection = connection;
     this.roles = connection.promise().query("SELECT id, title FROM roles");
+    this.managers = connection
+      .promise()
+      .query(
+        "SELECT id, first_name, last_name, role_id FROM employees WHERE is_manager=1"
+      );
   }
 
   addEmployee() {
@@ -26,6 +34,18 @@ class AddMod {
         rolesIds.push(rolesData[0][i].id);
       }
       // console.log(rolesTitles); OK
+    });
+
+    this.managers.then((managersData) => {
+      // console.log(managersData[0]);
+
+      for (var i = 0; i < managersData[0].length; i++) {
+        var fullName =
+          managersData[0][i].first_name + " " + managersData[0][i].last_name;
+        managersNames.push(fullName);
+        managersIds.push(managersData[0][i].id);
+      }
+      // console.log(managersIds);
     });
 
     inquirer
@@ -47,10 +67,18 @@ class AddMod {
           choices: rolesTitles,
         },
         {
+          type: "confirm",
+          name: "hasManager",
+          message: `Does this employee have a manager?`,
+        },
+        {
           type: "list",
           name: "newEmployeeManager",
           message: `Who is this employee's supervisor/manager?`,
-          choices: ["Not applicable", "Fake Man1", "Fake Man2", "Fake Man3"],
+          choices: managersNames,
+          when: function (response) {
+            return response.hasManager;
+          },
         },
         {
           type: "confirm",
@@ -63,7 +91,9 @@ class AddMod {
         var lastName = response.newEmployeeLastName;
         var roleChoice = response.newEmployeeRole;
         var roleIdx = rolesTitles.indexOf(roleChoice);
-        var chosenManager = response.newEmployeeManager;
+        var managerChoice = response.newEmployeeManager;
+        var managerIdx = managersNames.indexOf(managerChoice);
+        // var chosenManager = response.newEmployeeManager;
         var isManager = response.newEmpIsManager;
         //pair the user's role selection with the appropriate ID
 
@@ -75,7 +105,7 @@ class AddMod {
         connection
           // .promise()
           .query(
-            `INSERT INTO employees (first_name, last_name, role_id) VALUES ("${firstName}", "${lastName}", ${rolesIds[roleIdx]})`,
+            `INSERT INTO employees (first_name, last_name, role_id, manager_id) VALUES ("${firstName}", "${lastName}", ${rolesIds[roleIdx]}, ${managersIds[managerIdx]})`,
             function (err, results) {
               if (err) throw err;
               console.log("Employee added:");
@@ -84,7 +114,8 @@ class AddMod {
                   "First name": firstName,
                   "Last name": lastName,
                   Role: roleChoice,
-                  Manager: chosenManager,
+                  Manager: managerChoice,
+                  "is Manager?": isManager,
                 },
               ]);
             }
