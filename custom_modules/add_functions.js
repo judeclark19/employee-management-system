@@ -22,6 +22,7 @@ class AddMod {
       // console.log(rolesData[0]);
       for (var i = 0; i < rolesData[0].length; i++) {
         rolesTitles.push(rolesData[0][i].title);
+        rolesIds.push(rolesData[0][i].id);
       }
       // console.log(rolesTitles); OK
     });
@@ -60,18 +61,18 @@ class AddMod {
         var firstName = response.newEmployeeFirstName;
         var lastName = response.newEmployeeLastName;
         var roleChoice = response.newEmployeeRole;
-
+        var roleIdx = rolesTitles.indexOf(roleChoice);
         //pair the user's role selection with the appropriate ID
 
         // function renameMe() {
-        console.log(roleChoice);
+        console.log(rolesIds[roleIdx]);
         // }
 
         // var role = response.newEmployeeRole;
         connection
           // .promise()
           .query(
-            `INSERT INTO employees (first_name, last_name) VALUES ("${firstName}", "${lastName}")`,
+            `INSERT INTO employees (first_name, last_name, role_id) VALUES ("${firstName}", "${lastName}", ${rolesIds[roleIdx]})`,
             // [firstName, lastName],
             function (err, results) {
               if (err) throw err;
