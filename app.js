@@ -62,8 +62,9 @@ function showMainMenu() {
             console.log(response.viewAction);
 
             if (response.viewAction === "View all employees") {
-              await viewMod.viewAllEmployees();
-              // returnToMainMenu();
+              const [rows] = await viewMod.viewAllEmployees();
+              console.table(rows);
+              returnToMainMenu();
             } else if (response.viewAction === "View all managers") {
               viewMod.viewAllManagers();
               // returnToMainMenu();
@@ -84,12 +85,13 @@ function showMainMenu() {
     .catch((err) => {
       if (err) throw err;
     });
+  // returnToMainMenu();
 }
 
 //NAV FUNCTIONS
 //================================================================
 
-function returnToMainMenu() {
+async function returnToMainMenu() {
   inquirer
     .prompt([
       {

@@ -6,12 +6,13 @@ class ViewMod {
   }
 
   viewAllEmployees() {
-    return connection.query("SELECT * FROM employees", function (err, results) {
-      if (err) throw err;
-      console.table(results);
-      // returnToMainMenu();
-      // return results;
-    });
+    return connection.promise().query("SELECT * FROM employees");
+    // , function (err, results) {
+    //   if (err) throw err;
+    //   console.table(results);
+    //   // returnToMainMenu();
+    //   // return results;
+    // });
   }
 
   viewAllManagers() {
