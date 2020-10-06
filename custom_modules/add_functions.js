@@ -145,7 +145,64 @@ class AddMod {
   }
 
   addRole() {
-    return connection.promise().query("SELECT * FROM roles");
+    //parse roles
+    this.roles.then((rolesData) => {
+      for (var i = 0; i < rolesData[0].length; i++) {
+        rolesTitles.push(rolesData[0][i].title);
+        rolesIds.push(rolesData[0][i].id);
+      }
+    });
+    //parse depts
+    this.departments.then((departmentsData) => {
+      for (var i = 0; i < departmentsData[0].length; i++) {
+        deptNames.push(departmentsData[0][i].name);
+        deptIds.push(departmentsData[0][i].id);
+      }
+    });
+
+    inquirer
+      .prompt([
+        {
+          type: "input",
+          name: "newRoleTitle",
+          message: "Enter new role title:",
+        },
+        {
+          type: "number",
+          name: "newRoleSalary",
+          message: "Enter the salary for this role (whole number):",
+        },
+        {
+          type: "list",
+          name: "newRoleDept",
+          message: "Which department does this role function under?",
+          choices: deptNames,
+        },
+      ])
+      .then((response) => {
+        var newRoleTitle = response.newRoleTitle;
+        var newRoleSalary = response.newRoleSalary;
+        var newRoleDeptChoice = response.newRoleDept;
+        var newRoleDeptIdx = deptNames.indexOf(newRoleDeptChoice);
+
+        connection.query(
+          `INSERT INTO roles (title, salary, department_id) VALUES ("${newRoleTitle}", "${newRoleSalary}", "${newRoleDeptIdx}")`,
+          function (err, results) {
+            if (err) throw err;
+            console.log("Role added:");
+            console.table([
+              {
+                Title: newRoleTitle,
+                Salary: newRoleSalary,
+                Department: newRoleDeptChoice,
+              },
+            ]);
+          }
+        );
+      })
+      .catch((err) => {
+        if (err) throw err;
+      });
   }
 }
 
