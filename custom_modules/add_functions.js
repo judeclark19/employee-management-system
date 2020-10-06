@@ -1,12 +1,31 @@
 import connection from "../Database/connection.js";
 import inquirer from "inquirer";
 
+// const [rows] = connection.query("SELECT * FROM roles");
+// console.table(rows);
+// var renameMe = function () {
+//   return connection.query("SELECT * FROM roles");
+// }
+const rolesIds = [];
+const rolesTitles = [];
+
 class AddMod {
   constructor(connection) {
     this.connection = connection;
+    this.roles = connection.promise().query("SELECT id, title FROM roles");
   }
 
   addEmployee() {
+    // console.log(this.roles);
+
+    this.roles.then((rolesData) => {
+      // console.log(rolesData[0]);
+      for (var i = 0; i < rolesData[0].length; i++) {
+        rolesTitles.push(rolesData[0][i].title);
+      }
+      // console.log(rolesTitles); OK
+    });
+
     inquirer
       .prompt([
         {
@@ -23,7 +42,7 @@ class AddMod {
           type: "list",
           name: "newEmployeeRole",
           message: "Choose a role:",
-          choices: ["Fake Role1", "Fake Role2", "Fake Role3"],
+          choices: rolesTitles,
         },
         {
           type: "list",
@@ -38,12 +57,17 @@ class AddMod {
         },
       ])
       .then((response) => {
-        console.log(
-          typeof response.newEmployeeFirstName,
-          typeof response.newEmployeeLastName
-        );
         var firstName = response.newEmployeeFirstName;
         var lastName = response.newEmployeeLastName;
+        var roleChoice = response.newEmployeeRole;
+
+        //pair the user's role selection with the appropriate ID
+
+        // function renameMe() {
+        console.log(roleChoice);
+        // }
+
+        // var role = response.newEmployeeRole;
         connection
           // .promise()
           .query(
