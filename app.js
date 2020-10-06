@@ -102,8 +102,9 @@ function showMainMenu() {
               // console.table(rows);
               // returnToMainMenu();
             } else if (response.addAction === "Add a department") {
-              const [rows] = await addMod.addDepartment();
-              console.table(rows);
+              addMod.addDepartment();
+              // const [rows] = await addMod.addDepartment();
+              // console.table(rows);
               // returnToMainMenu();
             } else if (response.viewAction === "View all roles") {
               const [rows] = await addMod.viewAllRoles();
