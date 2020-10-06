@@ -105,7 +105,7 @@ class AddMod {
         connection
           // .promise()
           .query(
-            `INSERT INTO employees (first_name, last_name, role_id, manager_id) VALUES ("${firstName}", "${lastName}", ${rolesIds[roleIdx]}, ${managersIds[managerIdx]})`,
+            `INSERT INTO employees (first_name, last_name, role_id, manager_id, is_manager) VALUES ("${firstName}", "${lastName}", ${rolesIds[roleIdx]}, ${managersIds[managerIdx]}, ${isManager})`,
             function (err, results) {
               if (err) throw err;
               console.log("Employee added:");
