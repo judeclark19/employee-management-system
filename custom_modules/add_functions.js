@@ -39,17 +39,16 @@ class AddMod {
       ])
       .then((response) => {
         console.log(
-          response.newEmployeeFirstName,
-          response.newEmployeeLastName
+          typeof response.newEmployeeFirstName,
+          typeof response.newEmployeeLastName
         );
+        var firstName = response.newEmployeeFirstName;
+        var lastName = response.newEmployeeLastName;
         connection
-          .promise()
+          // .promise()
           .query(
-            `INSERT INTO employees (first_name, last_name) VALUES ? `,
-            [
-              `${response.newEmployeeFirstName}`,
-              `${response.newEmployeeLastName}`,
-            ],
+            `INSERT INTO employees (first_name, last_name) VALUES ("${firstName}", "${lastName}")`,
+            // [firstName, lastName],
             function (err, results) {
               if (err) throw err;
               console.log(results);
