@@ -1,5 +1,6 @@
 import connection from "../Database/connection.js";
 import inquirer from "inquirer";
+// import viewMod from "./custom_modules/view_functions.js";
 
 // const [rows] = connection.query("SELECT * FROM roles");
 // console.table(rows);
@@ -62,10 +63,12 @@ class AddMod {
         var lastName = response.newEmployeeLastName;
         var roleChoice = response.newEmployeeRole;
         var roleIdx = rolesTitles.indexOf(roleChoice);
+        var chosenManager = response.newEmployeeManager;
+        var isManager = response.newEmpIsManager;
         //pair the user's role selection with the appropriate ID
 
         // function renameMe() {
-        console.log(rolesIds[roleIdx]);
+        // console.log(rolesIds[roleIdx]);
         // }
 
         // var role = response.newEmployeeRole;
@@ -73,10 +76,16 @@ class AddMod {
           // .promise()
           .query(
             `INSERT INTO employees (first_name, last_name, role_id) VALUES ("${firstName}", "${lastName}", ${rolesIds[roleIdx]})`,
-            // [firstName, lastName],
             function (err, results) {
               if (err) throw err;
-              console.log(results);
+              console.log("Employee added:");
+              console.table([
+                firstName,
+                lastName,
+                roleChoice,
+                chosenManager,
+                isManager,
+              ]);
             }
           );
       })
