@@ -6,6 +6,7 @@ import inquirer from "inquirer";
 import figlet from "figlet";
 // const ViewMod = require("");
 import viewMod from "./custom_modules/view_functions.js";
+import addMod from "./custom_modules/add_functions.js";
 import { testArray } from "./custom_modules/test_mod.js";
 
 //checking module connections
@@ -39,8 +40,6 @@ function showMainMenu() {
       },
     ])
     .then(function (response) {
-      //act with response data
-      // console.log(response.chooseAction);
       if (response.chooseAction === "VIEW") {
         // viewAllEmployees();
         inquirer
@@ -82,6 +81,39 @@ function showMainMenu() {
           .catch((err) => {
             if (err) throw err;
           });
+      } else if (response.chooseAction === "ADD") {
+        inquirer
+          .prompt([
+            {
+              type: "list",
+              name: "addAction",
+              message: "Choose an add action:",
+              choices: ["Add an employee", "Add a department", "Add a role"],
+            },
+          ])
+          .then(async (response) => {
+            if (response.addAction === "Add an employee") {
+              console.log(
+                "Enter the following information for the new employee:"
+              );
+              addMod.addEmployee();
+
+              // const [rows] = await addMod.addEmployee();
+              // console.table(rows);
+              // returnToMainMenu();
+            } else if (response.addAction === "Add a department") {
+              addMod.addDepartment();
+              // const [rows] = await addMod.addDepartment();
+              // console.table(rows);
+              // returnToMainMenu();
+            } else if (response.addAction === "Add a role") {
+              addMod.addRole();
+              // returnToMainMenu();
+            }
+          })
+          .catch((err) => {
+            if (err) throw err;
+          });
       }
     })
     .catch((err) => {
@@ -104,7 +136,6 @@ async function returnToMainMenu() {
       },
     ])
     .then(function (response) {
-      // console.log(response.confirm);
       if (response.confirm) {
         showMainMenu();
       }
