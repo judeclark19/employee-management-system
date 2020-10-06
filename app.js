@@ -93,8 +93,13 @@ function showMainMenu() {
           ])
           .then(async (response) => {
             if (response.addAction === "Add an employee") {
-              const [rows] = await addMod.addEmployee();
-              console.table(rows);
+              console.log(
+                "Enter the following information for the new employee:"
+              );
+              addMod.addEmployee();
+
+              // const [rows] = await addMod.addEmployee();
+              // console.table(rows);
               // returnToMainMenu();
             } else if (response.addAction === "Add a department") {
               const [rows] = await addMod.addDepartment();
@@ -131,7 +136,6 @@ async function returnToMainMenu() {
       },
     ])
     .then(function (response) {
-      // console.log(response.confirm);
       if (response.confirm) {
         showMainMenu();
       }
