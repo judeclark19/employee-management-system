@@ -54,6 +54,7 @@ function showMainMenu() {
                 "View all managers",
                 "View all departments",
                 "View all roles",
+                "BACK",
               ],
             },
           ])
@@ -77,20 +78,26 @@ function showMainMenu() {
               const [rows] = await viewMod.viewAllRoles();
               console.table(rows);
               returnToMainMenu();
+            } else if (response.viewAction === "BACK") {
+              showMainMenu();
             }
           })
           .catch((err) => {
             if (err) throw err;
           });
-      }
-      if (response.chooseAction === "ADD") {
+      } else if (response.chooseAction === "ADD") {
         inquirer
           .prompt([
             {
               type: "list",
               name: "addAction",
               message: "Choose an add action:",
-              choices: ["Add an employee", "Add a department", "Add a role"],
+              choices: [
+                "Add an employee",
+                "Add a department",
+                "Add a role",
+                "BACK",
+              ],
             },
           ])
           .then(async (response) => {
@@ -111,6 +118,8 @@ function showMainMenu() {
             } else if (response.addAction === "Add a role") {
               addMod.addRole();
               // returnToMainMenu();
+            } else if (response.addAction === "BACK") {
+              showMainMenu();
             }
           })
           .catch((err) => {
