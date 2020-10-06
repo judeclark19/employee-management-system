@@ -57,24 +57,25 @@ function showMainMenu() {
               ],
             },
           ])
-          .then((response) => {
+          .then(async (response) => {
             //act on response
             console.log(response.viewAction);
 
             if (response.viewAction === "View all employees") {
-              viewMod.viewAllEmployees();
-              returnToMainMenu();
+              await viewMod.viewAllEmployees();
+              // returnToMainMenu();
             } else if (response.viewAction === "View all managers") {
               viewMod.viewAllManagers();
-              returnToMainMenu();
+              // returnToMainMenu();
             } else if (response.viewAction === "View all departments") {
               viewAllDepartments();
-              returnToMainMenu();
+              // returnToMainMenu();
             } else if (response.viewAction === "View all roles") {
               viewAllRoles();
-              returnToMainMenu();
+              // returnToMainMenu();
             }
           })
+          // .then(() => returnToMainMenu())
           .catch((err) => {
             if (err) throw err;
           });
