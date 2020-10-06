@@ -36,10 +36,3 @@ class ViewMod {
 }
 
 export default new ViewMod(connection);
-//   viewAllRoles: function () {
-//     connection.query("SELECT * FROM roles", function (err, results) {
-//       if (err) throw err;
-//       console.table(results);
-//     });
-//   },
-// }

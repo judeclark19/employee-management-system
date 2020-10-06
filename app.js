@@ -7,13 +7,9 @@ import figlet from "figlet";
 // const ViewMod = require("");
 import viewMod from "./custom_modules/view_functions.js";
 import addMod from "./custom_modules/add_functions.js";
-import { testArray } from "./custom_modules/test_mod.js";
+import updateMod from "./custom_modules/update_functions.js";
 import connection from "./Database/connection.js";
 
-//checking module connections
-// console.log(viewMod);
-// console.log("TEST ARRAY!!!");
-// console.log(testArray);
 welcome();
 function welcome() {
   // console.log("WELCOME MESSAGE HERE");
@@ -37,7 +33,7 @@ function showMainMenu() {
         type: "list",
         name: "chooseAction",
         message: "Please choose a submenu to see possible actions:",
-        choices: ["VIEW", "ADD", "REMOVE", "UPDATE", "EXIT"],
+        choices: ["VIEW", "ADD", "UPDATE", "EXIT APPLICATION"],
       },
     ])
     .then(function (response) {
@@ -125,7 +121,27 @@ function showMainMenu() {
           .catch((err) => {
             if (err) throw err;
           });
-      } else if (response.chooseAction === "EXIT") {
+      } else if (response.chooseAction === "REMOVE") {
+        console.log("under construction...");
+        showMainMenu();
+      } else if (response.chooseAction === "UPDATE") {
+        updateMod.updateEmployeeRole();
+        // inquirer
+        //   .prompt([
+        //     {
+        //       type: "list",
+        //       name: "employeeToUpdate",
+        //       message: "Choose an employee to update their role:"
+        //       choices:
+        //     }
+        //   ])
+        //   .then((response) => {
+        //     //SUCCESS ACTION
+        //   })
+        //   .catch((err) => {
+        //     if (err) throw err;
+        //   });
+      } else if (response.chooseAction === "EXIT APPLICATION") {
         connection.end();
       }
     })
