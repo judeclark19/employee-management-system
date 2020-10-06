@@ -7,24 +7,26 @@ class ViewMod {
 
   viewAllEmployees() {
     return connection.promise().query("SELECT * FROM employees");
-    // , function (err, results) {
-    //   if (err) throw err;
-    //   console.table(results);
-    //   // returnToMainMenu();
-    //   // return results;
-    // });
   }
 
   viewAllManagers() {
-    connection.query(
-      "SELECT id, first_name, last_name, role_id FROM employees WHERE is_manager=1",
-      function (err, results) {
-        if (err) throw err;
-        console.table(results);
-        // returnToMainMenu();
-      }
-    );
+    return connection
+      .promise()
+      .query(
+        "SELECT id, first_name, last_name, role_id FROM employees WHERE is_manager=1"
+      );
   }
+
+  // viewAllManagers() {
+  //   connection.query(
+  //     "SELECT id, first_name, last_name, role_id FROM employees WHERE is_manager=1",
+  //     function (err, results) {
+  //       if (err) throw err;
+  //       console.table(results);
+  //       // returnToMainMenu();
+  //     }
+  //   );
+  // }
 }
 
 export default new ViewMod(connection);

@@ -66,8 +66,9 @@ function showMainMenu() {
               console.table(rows);
               returnToMainMenu();
             } else if (response.viewAction === "View all managers") {
-              viewMod.viewAllManagers();
-              // returnToMainMenu();
+              const [rows] = await viewMod.viewAllManagers();
+              console.table(rows);
+              returnToMainMenu();
             } else if (response.viewAction === "View all departments") {
               viewAllDepartments();
               // returnToMainMenu();
@@ -76,7 +77,6 @@ function showMainMenu() {
               // returnToMainMenu();
             }
           })
-          // .then(() => returnToMainMenu())
           .catch((err) => {
             if (err) throw err;
           });
