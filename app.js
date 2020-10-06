@@ -62,20 +62,23 @@ function showMainMenu() {
             console.log(response.viewAction);
 
             if (response.viewAction === "View all employees") {
-              await viewMod.viewAllEmployees();
-              // returnToMainMenu();
+              const [rows] = await viewMod.viewAllEmployees();
+              console.table(rows);
+              returnToMainMenu();
             } else if (response.viewAction === "View all managers") {
-              viewMod.viewAllManagers();
-              // returnToMainMenu();
+              const [rows] = await viewMod.viewAllManagers();
+              console.table(rows);
+              returnToMainMenu();
             } else if (response.viewAction === "View all departments") {
-              viewAllDepartments();
-              // returnToMainMenu();
+              const [rows] = await viewMod.viewAllDepartments();
+              console.table(rows);
+              returnToMainMenu();
             } else if (response.viewAction === "View all roles") {
-              viewAllRoles();
-              // returnToMainMenu();
+              const [rows] = await viewMod.viewAllRoles();
+              console.table(rows);
+              returnToMainMenu();
             }
           })
-          // .then(() => returnToMainMenu())
           .catch((err) => {
             if (err) throw err;
           });
@@ -84,12 +87,13 @@ function showMainMenu() {
     .catch((err) => {
       if (err) throw err;
     });
+  // returnToMainMenu();
 }
 
 //NAV FUNCTIONS
 //================================================================
 
-function returnToMainMenu() {
+async function returnToMainMenu() {
   inquirer
     .prompt([
       {
@@ -137,27 +141,27 @@ function returnToMainMenu() {
 //   );
 // }
 
-function viewAllDepartments() {
-  connection.query("SELECT * FROM departments", function (err, results) {
-    if (err) throw err;
-    //success ACTION
-    else {
-      console.table(results);
-      returnToMainMenu();
-    }
-  });
-}
+// function viewAllDepartments() {
+//   connection.query("SELECT * FROM departments", function (err, results) {
+//     if (err) throw err;
+//     //success ACTION
+//     else {
+//       console.table(results);
+//       returnToMainMenu();
+//     }
+//   });
+// }
 
-function viewAllRoles() {
-  connection.query("SELECT * FROM roles", function (err, results) {
-    if (err) throw err;
-    //success ACTION
-    else {
-      console.table(results);
-      returnToMainMenu();
-    }
-  });
-}
+// function viewAllRoles() {
+//   connection.query("SELECT * FROM roles", function (err, results) {
+//     if (err) throw err;
+//     //success ACTION
+//     else {
+//       console.table(results);
+//       returnToMainMenu();
+//     }
+//   });
+// }
 
 //INSERT FUNCTIONS
 //================================================================
