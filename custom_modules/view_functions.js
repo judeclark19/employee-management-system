@@ -6,7 +6,12 @@ class ViewMod {
   }
 
   viewAllEmployees() {
-    return connection.promise().query("SELECT * FROM employees");
+    // return connection.promise().query("SELECT * FROM employees");
+    return connection
+      .promise()
+      .query(
+        "SELECT employees.id, employees.first_name, employees.last_name, employees.manager_id, roles.title, roles.salary FROM employees INNER JOIN roles ON employees.role_id = roles.id;"
+      );
   }
 
   viewAllManagers() {
