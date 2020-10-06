@@ -70,11 +70,13 @@ function showMainMenu() {
               console.table(rows);
               returnToMainMenu();
             } else if (response.viewAction === "View all departments") {
-              viewAllDepartments();
-              // returnToMainMenu();
+              const [rows] = await viewMod.viewAllDepartments();
+              console.table(rows);
+              returnToMainMenu();
             } else if (response.viewAction === "View all roles") {
-              viewAllRoles();
-              // returnToMainMenu();
+              const [rows] = await viewMod.viewAllRoles();
+              console.table(rows);
+              returnToMainMenu();
             }
           })
           .catch((err) => {
@@ -139,27 +141,27 @@ async function returnToMainMenu() {
 //   );
 // }
 
-function viewAllDepartments() {
-  connection.query("SELECT * FROM departments", function (err, results) {
-    if (err) throw err;
-    //success ACTION
-    else {
-      console.table(results);
-      returnToMainMenu();
-    }
-  });
-}
+// function viewAllDepartments() {
+//   connection.query("SELECT * FROM departments", function (err, results) {
+//     if (err) throw err;
+//     //success ACTION
+//     else {
+//       console.table(results);
+//       returnToMainMenu();
+//     }
+//   });
+// }
 
-function viewAllRoles() {
-  connection.query("SELECT * FROM roles", function (err, results) {
-    if (err) throw err;
-    //success ACTION
-    else {
-      console.table(results);
-      returnToMainMenu();
-    }
-  });
-}
+// function viewAllRoles() {
+//   connection.query("SELECT * FROM roles", function (err, results) {
+//     if (err) throw err;
+//     //success ACTION
+//     else {
+//       console.table(results);
+//       returnToMainMenu();
+//     }
+//   });
+// }
 
 //INSERT FUNCTIONS
 //================================================================
