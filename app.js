@@ -8,6 +8,7 @@ import figlet from "figlet";
 import viewMod from "./custom_modules/view_functions.js";
 import addMod from "./custom_modules/add_functions.js";
 import { testArray } from "./custom_modules/test_mod.js";
+import connection from "./Database/connection.js";
 
 //checking module connections
 // console.log(viewMod);
@@ -36,7 +37,7 @@ function showMainMenu() {
         type: "list",
         name: "chooseAction",
         message: "Please choose a submenu to see possible actions:",
-        choices: ["VIEW", "ADD", "REMOVE", "UPDATE"],
+        choices: ["VIEW", "ADD", "REMOVE", "UPDATE", "EXIT"],
       },
     ])
     .then(function (response) {
@@ -53,6 +54,7 @@ function showMainMenu() {
                 "View all managers",
                 "View all departments",
                 "View all roles",
+                "BACK",
               ],
             },
           ])
@@ -76,6 +78,8 @@ function showMainMenu() {
               const [rows] = await viewMod.viewAllRoles();
               console.table(rows);
               returnToMainMenu();
+            } else if (response.viewAction === "BACK") {
+              showMainMenu();
             }
           })
           .catch((err) => {
@@ -88,7 +92,12 @@ function showMainMenu() {
               type: "list",
               name: "addAction",
               message: "Choose an add action:",
-              choices: ["Add an employee", "Add a department", "Add a role"],
+              choices: [
+                "Add an employee",
+                "Add a department",
+                "Add a role",
+                "BACK",
+              ],
             },
           ])
           .then(async (response) => {
@@ -109,11 +118,15 @@ function showMainMenu() {
             } else if (response.addAction === "Add a role") {
               addMod.addRole();
               // returnToMainMenu();
+            } else if (response.addAction === "BACK") {
+              showMainMenu();
             }
           })
           .catch((err) => {
             if (err) throw err;
           });
+      } else if (response.chooseAction === "EXIT") {
+        connection.end();
       }
     })
     .catch((err) => {
