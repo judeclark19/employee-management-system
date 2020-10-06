@@ -80,11 +80,12 @@ class AddMod {
               if (err) throw err;
               console.log("Employee added:");
               console.table([
-                firstName,
-                lastName,
-                roleChoice,
-                chosenManager,
-                isManager,
+                {
+                  "First name": firstName,
+                  "Last name": lastName,
+                  Role: roleChoice,
+                  Manager: chosenManager,
+                },
               ]);
             }
           );
