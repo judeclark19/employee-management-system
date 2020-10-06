@@ -23,11 +23,15 @@ class ViewMod {
   }
 
   viewAllDepartments() {
-    return connection.promise().query("SELECT * FROM departments");
+    return connection.promise().query("SELECT name FROM departments");
   }
 
   viewAllRoles() {
-    return connection.promise().query("SELECT * FROM roles");
+    return connection
+      .promise()
+      .query(
+        "SELECT roles.title, roles.salary, departments.name FROM roles JOIN departments ON roles.department_id = departments.id;"
+      );
   }
 }
 
