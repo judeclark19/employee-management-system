@@ -143,13 +143,14 @@ class AddMod {
                     "is Manager?": isManager,
                   },
                 ]);
+                returnToMainMenu();
               }
             );
         }
       })
-      .then(() => {
-        returnToMainMenu();
-      })
+      // .then(() => {
+      //   returnToMainMenu();
+      // })
       .catch((err) => {
         if (err) throw err;
       });
