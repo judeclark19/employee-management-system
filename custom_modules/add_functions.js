@@ -42,7 +42,7 @@ class AddMod {
     //   .query(
     //     "SELECT id, first_name, last_name, role_id FROM employees WHERE is_manager=1"
     //   );
-    // this.departments = connection.promise().query("SELECT * FROM departments");
+    this.departments = connection.promise().query("SELECT * FROM departments");
   }
 
   async addEmployee() {
@@ -208,6 +208,7 @@ class AddMod {
             if (err) throw err;
             console.log("Department added:");
             console.table({ Name: deptName });
+            returnToMainMenu();
           }
         );
         //parse response and do a connection query insert
