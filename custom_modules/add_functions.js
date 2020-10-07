@@ -260,7 +260,7 @@ class AddMod {
         var newRoleDeptIdx = deptNames.indexOf(newRoleDeptChoice);
 
         connection.query(
-          `INSERT INTO roles (title, salary, department_id) VALUES ("${newRoleTitle}", "${newRoleSalary}", "${newRoleDeptIdx}")`,
+          `INSERT INTO roles (title, salary, department_id) VALUES ("${newRoleTitle}", "${newRoleSalary}", "${deptIds[newRoleDeptIdx]}")`,
           function (err, results) {
             if (err) throw err;
             console.log("Role added:");
@@ -271,6 +271,7 @@ class AddMod {
                 Department: newRoleDeptChoice,
               },
             ]);
+            returnToMainMenu();
           }
         );
       })
