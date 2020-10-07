@@ -1,10 +1,5 @@
-// var mysql = require("mysql");
-// import mysql from "mysql";
-// var inquirer = require("inquirer");
 import inquirer from "inquirer";
-// var conTab = require("console.table");
 import figlet from "figlet";
-// const ViewMod = require("");
 import viewMod from "./custom_modules/view_functions.js";
 import addMod from "./custom_modules/add_functions.js";
 import updateMod from "./custom_modules/update_functions.js";
@@ -13,7 +8,6 @@ import connection from "./Database/connection.js";
 
 welcome();
 function welcome() {
-  // console.log("WELCOME MESSAGE HERE");
   console.log(
     figlet.textSync("EMS", {
       font: "isometric3",
@@ -56,8 +50,6 @@ function showMainMenu() {
             },
           ])
           .then(async (response) => {
-            //act on response
-
             if (response.viewAction === "View all employees") {
               const [rows] = await viewMod.viewAllEmployees();
               console.table(rows);
@@ -102,7 +94,6 @@ function showMainMenu() {
                 "Enter the following information for the new employee:"
               );
               addMod.addEmployee();
-              // returnToMainMenu();
             } else if (response.addAction === "Add a department") {
               addMod.addDepartment();
             } else if (response.addAction === "Add a role") {
@@ -139,9 +130,6 @@ function showMainMenu() {
       if (err) throw err;
     });
 }
-
-//NAV FUNCTIONS
-//================================================================
 
 export default async function returnToMainMenu() {
   inquirer

@@ -1,3 +1,5 @@
+//THIS FILE CURRENTLY IS NOT IN USE BC I COULDN'T GET IT TO WORK
+
 import inquirer from "inquirer";
 import connection from "../Database/connection.js";
 import returnToMainMenu from "../app.js";
@@ -21,16 +23,13 @@ class DeleteMod {
   }
 
   deleteAnEmployee() {
-    // return connection.promise().query("SELECT * FROM employees");
+    // parse employees
     this.employees.then((employeesData) => {
       employeesData[0].forEach((employee) => {
         var fullName = employee.first_name + " " + employee.last_name;
         employeeNames.push(fullName);
         employeesIds.push(employee.id);
       });
-      //   console.log(employeeNames);
-      // });
-
       inquirer
         .prompt([
           {
@@ -42,11 +41,9 @@ class DeleteMod {
           },
         ])
         .then(({ employeeChoice }) => {
-          //   console.log(employeeChoice);
           var employeeIdx = employeeNames.indexOf(employeeChoice);
-          //   console.log(employeeIdx);
+
           employeeChoiceId = employeesIds[employeeIdx];
-          //   console.log(employeeChoiceId);
 
           connection.query(
             `DELETE FROM employees WHERE id = ${employeeChoiceId}`,
