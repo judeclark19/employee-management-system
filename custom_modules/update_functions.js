@@ -1,5 +1,6 @@
 import connection from "../Database/connection.js";
 import inquirer from "inquirer";
+import parseMod from "./parse_functions.js";
 
 var employeeNames = [];
 var employeesIds = [];

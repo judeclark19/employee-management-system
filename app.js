@@ -8,6 +8,7 @@ import figlet from "figlet";
 import viewMod from "./custom_modules/view_functions.js";
 import addMod from "./custom_modules/add_functions.js";
 import updateMod from "./custom_modules/update_functions.js";
+import parseMod from "./custom_modules/parse_functions.js";
 import connection from "./Database/connection.js";
 
 welcome();
@@ -56,7 +57,6 @@ function showMainMenu() {
           ])
           .then(async (response) => {
             //act on response
-            console.log(response.viewAction);
 
             if (response.viewAction === "View all employees") {
               const [rows] = await viewMod.viewAllEmployees();
@@ -101,19 +101,13 @@ function showMainMenu() {
               console.log(
                 "Enter the following information for the new employee:"
               );
-              addMod.addEmployee();
-
-              // const [rows] = await addMod.addEmployee();
-              // console.table(rows);
-              // returnToMainMenu();
+              var stuff = await addMod.addEmployee2();
+              console.log(stuff);
+              returnToMainMenu();
             } else if (response.addAction === "Add a department") {
               addMod.addDepartment();
-              // const [rows] = await addMod.addDepartment();
-              // console.table(rows);
-              // returnToMainMenu();
             } else if (response.addAction === "Add a role") {
               addMod.addRole();
-              // returnToMainMenu();
             } else if (response.addAction === "BACK") {
               showMainMenu();
             }
@@ -126,21 +120,6 @@ function showMainMenu() {
         showMainMenu();
       } else if (response.chooseAction === "UPDATE") {
         updateMod.updateEmployeeRole();
-        // inquirer
-        //   .prompt([
-        //     {
-        //       type: "list",
-        //       name: "employeeToUpdate",
-        //       message: "Choose an employee to update their role:"
-        //       choices:
-        //     }
-        //   ])
-        //   .then((response) => {
-        //     //SUCCESS ACTION
-        //   })
-        //   .catch((err) => {
-        //     if (err) throw err;
-        //   });
       } else if (response.chooseAction === "EXIT APPLICATION") {
         connection.end();
       }
@@ -148,7 +127,6 @@ function showMainMenu() {
     .catch((err) => {
       if (err) throw err;
     });
-  // returnToMainMenu();
 }
 
 //NAV FUNCTIONS
@@ -173,55 +151,3 @@ async function returnToMainMenu() {
       if (err) throw err;
     });
 }
-
-//VIEW FUNCTIONS
-//================================================================
-
-// function viewAllEmployees() {
-//   connection.query("SELECT * FROM employees", function (err, results) {
-//     if (err) throw err;
-//     //success ACTION
-//     else {
-//       console.table(results);
-//       returnToMainMenu();
-//     }
-//   });
-// }
-
-// function viewAllManagers() {
-//   connection.query(
-//     "SELECT id, first_name, last_name, role_id FROM employees WHERE is_manager=1",
-//     function (err, results) {
-//       if (err) throw err;
-//       else {
-//         console.table(results);
-//         returnToMainMenu();
-//       }
-//     }
-//   );
-// }
-
-// function viewAllDepartments() {
-//   connection.query("SELECT * FROM departments", function (err, results) {
-//     if (err) throw err;
-//     //success ACTION
-//     else {
-//       console.table(results);
-//       returnToMainMenu();
-//     }
-//   });
-// }
-
-// function viewAllRoles() {
-//   connection.query("SELECT * FROM roles", function (err, results) {
-//     if (err) throw err;
-//     //success ACTION
-//     else {
-//       console.table(results);
-//       returnToMainMenu();
-//     }
-//   });
-// }
-
-//INSERT FUNCTIONS
-//================================================================

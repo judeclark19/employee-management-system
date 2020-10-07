@@ -1,5 +1,14 @@
 import connection from "../Database/connection.js";
 import inquirer from "inquirer";
+import parseMod from "./parse_functions.js";
+
+var firstName;
+var lastName;
+var roleChoice;
+var roleIdx;
+var managerChoice;
+var managerIdx;
+var isManager;
 
 const rolesTitles = [];
 const rolesIds = [];
@@ -13,33 +22,21 @@ const deptIds = [];
 class AddMod {
   constructor(connection) {
     this.connection = connection;
-    this.roles = connection.promise().query("SELECT id, title FROM roles");
-    this.managers = connection
-      .promise()
-      .query(
-        "SELECT id, first_name, last_name, role_id FROM employees WHERE is_manager=1"
-      );
-    this.departments = connection.promise().query("SELECT * FROM departments");
+    // this.roles = connection.promise().query("SELECT id, title FROM roles");
+    // this.managers = connection
+    //   .promise()
+    //   .query(
+    //     "SELECT id, first_name, last_name, role_id FROM employees WHERE is_manager=1"
+    //   );
+    // this.departments = connection.promise().query("SELECT * FROM departments");
   }
 
-  addEmployee() {
+  async addEmployee() {
     //arrange existing roles from DB into arrays
-    this.roles.then((rolesData) => {
-      for (var i = 0; i < rolesData[0].length; i++) {
-        rolesTitles.push(rolesData[0][i].title);
-        rolesIds.push(rolesData[0][i].id);
-      }
-    });
+    parseMod.parseRoles();
 
     //arrange existing managers from DB into arrays
-    this.managers.then((managersData) => {
-      for (var i = 0; i < managersData[0].length; i++) {
-        var fullName =
-          managersData[0][i].first_name + " " + managersData[0][i].last_name;
-        managersNames.push(fullName);
-        managersIds.push(managersData[0][i].id);
-      }
-    });
+    parseMod.parseManagers();
 
     inquirer
       .prompt([
@@ -69,6 +66,7 @@ class AddMod {
           name: "newEmployeeManager",
           message: `Who is this employee's supervisor/manager?`,
           choices: managersNames,
+          default: "nobody",
           when: function (response) {
             return response.hasManager;
           },
@@ -80,34 +78,61 @@ class AddMod {
         },
       ])
       .then((response) => {
-        var firstName = response.newEmployeeFirstName;
-        var lastName = response.newEmployeeLastName;
-        var roleChoice = response.newEmployeeRole;
-        var roleIdx = rolesTitles.indexOf(roleChoice);
-        var managerChoice = response.newEmployeeManager;
-        var managerIdx = managersNames.indexOf(managerChoice);
-        var isManager = response.newEmpIsManager;
-
-        connection.query(
-          `INSERT INTO employees (first_name, last_name, role_id, manager_id, is_manager) VALUES ("${firstName}", "${lastName}", ${rolesIds[roleIdx]}, ${managersIds[managerIdx]}, ${isManager})`,
-          function (err, results) {
-            if (err) throw err;
-            console.log("Employee added:");
-            console.table([
-              {
-                "First name": firstName,
-                "Last name": lastName,
-                Role: roleChoice,
-                Manager: managerChoice,
-                "is Manager?": isManager,
-              },
-            ]);
-          }
-        );
+        firstName = response.newEmployeeFirstName;
+        lastName = response.newEmployeeLastName;
+        roleChoice = response.newEmployeeRole;
+        roleIdx = rolesTitles.indexOf(roleChoice);
+        managerChoice = response.newEmployeeManager;
+        managerIdx = managersNames.indexOf(managerChoice);
+        isManager = response.newEmpIsManager;
+        // addEmployee2();
+        // console.log(firstName, lastName, roleChoice);
+        return;
       })
       .catch((err) => {
         if (err) throw err;
       });
+  }
+
+  async addEmployee2() {
+    await this.addEmployee();
+    console.log("response from addemployee2");
+    // if (managerChoice) {
+    //   return connection.promise().query(
+    //     `INSERT INTO employees (first_name, last_name, role_id, manager_id, is_manager) VALUES ("${firstName}", "${lastName}", ${rolesIds[roleIdx]}, ${managersIds[managerIdx]}, ${isManager})`
+    //     // ,
+    //     // function (err, results) {
+    //     //   if (err) throw err;
+    //     //   console.log("Employee added:");
+    //     //   console.table([
+    //     //     {
+    //     //       "First name": firstName,
+    //     //       "Last name": lastName,
+    //     //       Role: roleChoice,
+    //     //       Manager: managerChoice,
+    //     //       "is Manager?": isManager,
+    //     //     },
+    //     //   ]);
+    //     // }
+    //   );
+    // } else {
+    // return connection.promise().query(
+    //   `INSERT INTO employees (first_name, last_name, role_id, is_manager) VALUES ("${firstName}", "${lastName}", ${rolesIds[roleIdx]}, ${isManager})`
+    // ,
+    // function (err, results) {
+    //   if (err) throw err;
+    //   console.log("Employee added:");
+    //   console.table([
+    //     {
+    //       "First name": firstName,
+    //       "Last name": lastName,
+    //       Role: roleChoice,
+    //       "is Manager?": isManager,
+    //     },
+    //   ]);
+    // }
+    // );
+    // }
   }
 
   addDepartment() {
