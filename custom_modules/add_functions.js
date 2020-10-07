@@ -146,38 +146,41 @@ class AddMod {
                 returnToMainMenu();
               }
             );
+        } else {
+          // return (
+          connection
+            // .promise()
+            .query(
+              `INSERT INTO employees (first_name, last_name, role_id, is_manager) VALUES ("${firstName}", "${lastName}", ${rolesIds[roleIdx]}, ${isManager})`,
+              function (err, results) {
+                if (err) throw err;
+                console.log("Employee added:");
+                console.table([
+                  {
+                    "First name": firstName,
+                    "Last name": lastName,
+                    Role: roleChoice,
+                    "is Manager?": isManager,
+                  },
+                ]);
+                returnToMainMenu();
+              }
+            );
+          // );
         }
-      })
-      // .then(() => {
-      //   returnToMainMenu();
-      // })
-      .catch((err) => {
-        if (err) throw err;
       });
+    // .then(() => {
+    //   returnToMainMenu();
+    // })
+    // .catch((err) => {
+    //   if (err) throw err;
+    // });
   }
 
   // async addEmployee2() {
   //   await this.addEmployee();
   //   console.log("response from addemployee2");
 
-  // else {
-  // return connection.promise().query(
-  //   `INSERT INTO employees (first_name, last_name, role_id, is_manager) VALUES ("${firstName}", "${lastName}", ${rolesIds[roleIdx]}, ${isManager})`
-  // ,
-  // function (err, results) {
-  //   if (err) throw err;
-  //   console.log("Employee added:");
-  //   console.table([
-  //     {
-  //       "First name": firstName,
-  //       "Last name": lastName,
-  //       Role: roleChoice,
-  //       "is Manager?": isManager,
-  //     },
-  //   ]);
-  // }
-  // );
-  // }
   // }
 
   addDepartment() {
