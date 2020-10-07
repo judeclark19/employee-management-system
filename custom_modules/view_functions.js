@@ -6,7 +6,6 @@ class ViewMod {
   }
 
   viewAllEmployees() {
-    // return connection.promise().query("SELECT * FROM employees");
     return connection
       .promise()
       .query(

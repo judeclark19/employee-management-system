@@ -26,8 +26,7 @@ class UpdateMod {
         employeeNames.push(fullName);
         employeesIds.push(employee.id);
       });
-      // console.log(employeesIds);
-      //arrange role titles
+      //Parse roles
       this.roles.then((rolesData) => {
         for (var i = 0; i < rolesData[0].length; i++) {
           rolesTitles.push(rolesData[0][i].title);
@@ -56,8 +55,6 @@ class UpdateMod {
           },
         ])
         .then((response) => {
-          // var chosenEmployee = response.employeeToUpdate;
-          // console.log(response);
           var roleChoice = response.newRole;
           var roleIdx = rolesTitles.indexOf(roleChoice);
           var employeeChoice = response.employeeChoice;
@@ -84,35 +81,6 @@ class UpdateMod {
         });
     });
   }
-
-  // viewAllEmployees() {
-  //   // return connection.promise().query("SELECT * FROM employees");
-  //   return connection
-  //     .promise()
-  //     .query(
-  //       "SELECT employees.id, employees.first_name, employees.last_name, employees.manager_id, roles.title, roles.salary, departments.name FROM employees JOIN roles ON employees.role_id = roles.id JOIN departments ON roles.department_id = departments.id ORDER BY employees.last_name"
-  //     );
-  // }
-
-  // viewAllManagers() {
-  //   return connection
-  //     .promise()
-  //     .query(
-  //       "SELECT employees.id, employees.first_name, employees.last_name, employees.manager_id, roles.title, roles.salary, departments.name FROM employees JOIN roles ON employees.role_id = roles.id JOIN departments ON roles.department_id = departments.id WHERE employees.is_manager = 1 ORDER BY employees.last_name;"
-  //     );
-  // }
-
-  // viewAllDepartments() {
-  //   return connection.promise().query("SELECT name FROM departments");
-  // }
-
-  // viewAllRoles() {
-  //   return connection
-  //     .promise()
-  //     .query(
-  //       "SELECT roles.title, roles.salary, departments.name FROM roles JOIN departments ON roles.department_id = departments.id;"
-  //     );
-  // }
 }
 
 export default new UpdateMod(connection);
