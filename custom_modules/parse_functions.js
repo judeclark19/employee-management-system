@@ -52,7 +52,7 @@ class ParseMod {
   }
 
   parseRoles() {
-    this.employees.then((rolesData) => {
+    this.roles.then((rolesData) => {
       for (var i = 0; i < rolesData[0].length; i++) {
         rolesTitles.push(rolesData[0][i].title);
         rolesIds.push(rolesData[0][i].id);

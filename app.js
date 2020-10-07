@@ -101,9 +101,8 @@ function showMainMenu() {
               console.log(
                 "Enter the following information for the new employee:"
               );
-              var stuff = await addMod.addEmployee2();
-              console.log(stuff);
-              returnToMainMenu();
+              addMod.addEmployee();
+              // returnToMainMenu();
             } else if (response.addAction === "Add a department") {
               addMod.addDepartment();
             } else if (response.addAction === "Add a role") {
@@ -132,7 +131,7 @@ function showMainMenu() {
 //NAV FUNCTIONS
 //================================================================
 
-async function returnToMainMenu() {
+export default async function returnToMainMenu() {
   inquirer
     .prompt([
       {
