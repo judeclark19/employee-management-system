@@ -7,13 +7,10 @@ import figlet from "figlet";
 // const ViewMod = require("");
 import viewMod from "./custom_modules/view_functions.js";
 import addMod from "./custom_modules/add_functions.js";
-import { testArray } from "./custom_modules/test_mod.js";
+import updateMod from "./custom_modules/update_functions.js";
+import deleteMod from "./custom_modules/delete_functions.js";
 import connection from "./Database/connection.js";
 
-//checking module connections
-// console.log(viewMod);
-// console.log("TEST ARRAY!!!");
-// console.log(testArray);
 welcome();
 function welcome() {
   // console.log("WELCOME MESSAGE HERE");
@@ -26,7 +23,7 @@ function welcome() {
       whitespaceBreak: true,
     })
   );
-  console.log("Welcome to the Employee Management System.");
+  console.log("\n\nWelcome to the Employee Management System.\n\n");
   showMainMenu();
 }
 
@@ -37,7 +34,7 @@ function showMainMenu() {
         type: "list",
         name: "chooseAction",
         message: "Please choose a submenu to see possible actions:",
-        choices: ["VIEW", "ADD", "REMOVE", "UPDATE", "EXIT"],
+        choices: ["VIEW", "ADD", "UPDATE", "EXIT APPLICATION"],
       },
     ])
     .then(function (response) {
@@ -60,7 +57,6 @@ function showMainMenu() {
           ])
           .then(async (response) => {
             //act on response
-            console.log(response.viewAction);
 
             if (response.viewAction === "View all employees") {
               const [rows] = await viewMod.viewAllEmployees();
@@ -106,18 +102,11 @@ function showMainMenu() {
                 "Enter the following information for the new employee:"
               );
               addMod.addEmployee();
-
-              // const [rows] = await addMod.addEmployee();
-              // console.table(rows);
               // returnToMainMenu();
             } else if (response.addAction === "Add a department") {
               addMod.addDepartment();
-              // const [rows] = await addMod.addDepartment();
-              // console.table(rows);
-              // returnToMainMenu();
             } else if (response.addAction === "Add a role") {
               addMod.addRole();
-              // returnToMainMenu();
             } else if (response.addAction === "BACK") {
               showMainMenu();
             }
@@ -125,20 +114,36 @@ function showMainMenu() {
           .catch((err) => {
             if (err) throw err;
           });
-      } else if (response.chooseAction === "EXIT") {
+      } else if (response.chooseAction === "REMOVE") {
+        inquirer
+          .prompt([
+            {
+              type: "list",
+              name: "deleteAction",
+              message: "Choose a delete action:",
+              choices: ["Delete an employee", "Delete a department"],
+            },
+          ])
+          .then((response) => {
+            if (response.deleteAction === "Delete an employee") {
+              deleteMod.deleteAnEmployee();
+            }
+          });
+      } else if (response.chooseAction === "UPDATE") {
+        updateMod.updateEmployeeRole();
+      } else if (response.chooseAction === "EXIT APPLICATION") {
         connection.end();
       }
     })
     .catch((err) => {
       if (err) throw err;
     });
-  // returnToMainMenu();
 }
 
 //NAV FUNCTIONS
 //================================================================
 
-async function returnToMainMenu() {
+export default async function returnToMainMenu() {
   inquirer
     .prompt([
       {
@@ -157,55 +162,3 @@ async function returnToMainMenu() {
       if (err) throw err;
     });
 }
-
-//VIEW FUNCTIONS
-//================================================================
-
-// function viewAllEmployees() {
-//   connection.query("SELECT * FROM employees", function (err, results) {
-//     if (err) throw err;
-//     //success ACTION
-//     else {
-//       console.table(results);
-//       returnToMainMenu();
-//     }
-//   });
-// }
-
-// function viewAllManagers() {
-//   connection.query(
-//     "SELECT id, first_name, last_name, role_id FROM employees WHERE is_manager=1",
-//     function (err, results) {
-//       if (err) throw err;
-//       else {
-//         console.table(results);
-//         returnToMainMenu();
-//       }
-//     }
-//   );
-// }
-
-// function viewAllDepartments() {
-//   connection.query("SELECT * FROM departments", function (err, results) {
-//     if (err) throw err;
-//     //success ACTION
-//     else {
-//       console.table(results);
-//       returnToMainMenu();
-//     }
-//   });
-// }
-
-// function viewAllRoles() {
-//   connection.query("SELECT * FROM roles", function (err, results) {
-//     if (err) throw err;
-//     //success ACTION
-//     else {
-//       console.table(results);
-//       returnToMainMenu();
-//     }
-//   });
-// }
-
-//INSERT FUNCTIONS
-//================================================================
