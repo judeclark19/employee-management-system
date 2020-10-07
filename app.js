@@ -34,7 +34,7 @@ function showMainMenu() {
         type: "list",
         name: "chooseAction",
         message: "Please choose a submenu to see possible actions:",
-        choices: ["VIEW", "ADD", "UPDATE", "REMOVE", "EXIT APPLICATION"],
+        choices: ["VIEW", "ADD", "UPDATE", "EXIT APPLICATION"],
       },
     ])
     .then(function (response) {
@@ -115,7 +115,20 @@ function showMainMenu() {
             if (err) throw err;
           });
       } else if (response.chooseAction === "REMOVE") {
-        deleteMod.deleteAnEmployee();
+        inquirer
+          .prompt([
+            {
+              type: "list",
+              name: "deleteAction",
+              message: "Choose a delete action:",
+              choices: ["Delete an employee", "Delete a department"],
+            },
+          ])
+          .then((response) => {
+            if (response.deleteAction === "Delete an employee") {
+              deleteMod.deleteAnEmployee();
+            }
+          });
       } else if (response.chooseAction === "UPDATE") {
         updateMod.updateEmployeeRole();
       } else if (response.chooseAction === "EXIT APPLICATION") {
