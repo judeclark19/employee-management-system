@@ -1,6 +1,6 @@
 import connection from "../Database/connection.js";
 import inquirer from "inquirer";
-import parseMod from "./parse_functions.js";
+import returnToMainMenu from "../app.js";
 
 var employeeNames = [];
 var employeesIds = [];
@@ -21,7 +21,6 @@ class UpdateMod {
   updateEmployeeRole() {
     //parse Employee names
     this.employees.then((employeesData) => {
-      // console.log(employeesData[0]);
       employeesData[0].forEach((employee) => {
         var fullName = employee.first_name + " " + employee.last_name;
         employeeNames.push(fullName);
@@ -78,6 +77,7 @@ class UpdateMod {
               "Is Manager?": response.isManager,
             },
           ]);
+          returnToMainMenu();
         })
         .catch((err) => {
           if (err) throw err;

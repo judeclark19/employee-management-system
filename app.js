@@ -8,7 +8,7 @@ import figlet from "figlet";
 import viewMod from "./custom_modules/view_functions.js";
 import addMod from "./custom_modules/add_functions.js";
 import updateMod from "./custom_modules/update_functions.js";
-import parseMod from "./custom_modules/parse_functions.js";
+import deleteMod from "./custom_modules/delete_functions.js";
 import connection from "./Database/connection.js";
 
 welcome();
@@ -23,7 +23,7 @@ function welcome() {
       whitespaceBreak: true,
     })
   );
-  console.log("Welcome to the Employee Management System.");
+  console.log("\n\nWelcome to the Employee Management System.\n\n");
   showMainMenu();
 }
 
@@ -34,7 +34,7 @@ function showMainMenu() {
         type: "list",
         name: "chooseAction",
         message: "Please choose a submenu to see possible actions:",
-        choices: ["VIEW", "ADD", "UPDATE", "EXIT APPLICATION"],
+        choices: ["VIEW", "ADD", "UPDATE", "REMOVE", "EXIT APPLICATION"],
       },
     ])
     .then(function (response) {
@@ -115,8 +115,7 @@ function showMainMenu() {
             if (err) throw err;
           });
       } else if (response.chooseAction === "REMOVE") {
-        console.log("under construction...");
-        showMainMenu();
+        deleteMod.deleteAnEmployee();
       } else if (response.chooseAction === "UPDATE") {
         updateMod.updateEmployeeRole();
       } else if (response.chooseAction === "EXIT APPLICATION") {

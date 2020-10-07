@@ -1,6 +1,5 @@
 import connection from "../Database/connection.js";
 import inquirer from "inquirer";
-import parseMod from "./parse_functions.js";
 import returnToMainMenu from "../app.js";
 
 var firstName;
