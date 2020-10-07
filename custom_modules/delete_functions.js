@@ -1,5 +1,6 @@
 import inquirer from "inquirer";
 import connection from "../Database/connection.js";
+import returnToMainMenu from "../app.js";
 
 var employeeNames = [];
 var employeesIds = [];
@@ -23,25 +24,47 @@ class DeleteMod {
         employeesIds.push(employee.id);
       });
       //   console.log(employeeNames);
-    });
+      // });
 
-    inquirer
-      .prompt([
-        {
-          type: "list",
-          name: "employeeChoice",
-          message: "Choose an employee to delete:",
-          //   choices: ["emp1", "emp2", "emp3"],
-          choices: employeeNames,
-        },
-      ])
-      .then((response) => {
-        console.log(response);
-        console.log(employeeNames);
-      })
-      .catch((err) => {
-        if (err) throw err;
-      });
+      inquirer
+        .prompt([
+          {
+            type: "list",
+            name: "employeeChoice",
+            message: "Choose an employee to delete:",
+            //   choices: ["emp1", "emp2", "emp3"],
+            choices: employeeNames,
+          },
+        ])
+        .then(({ employeeChoice }) => {
+          //   console.log(employeeChoice);
+          var employeeIdx = employeeNames.indexOf(employeeChoice);
+          //   console.log(employeeIdx);
+          var employeeChoiceId = employeesIds[employeeIdx];
+          //   console.log(employeeChoiceId);
+
+          connection.query(
+            `DELETE FROM employees WHERE id = ${employeeChoiceId}`,
+            function (err, result) {
+              if (err) throw err;
+              console.log(`Employee deleted: ${employeeChoice}`);
+              //   console.table([
+              //     {
+              //       "First name": firstName,
+              //       "Last name": lastName,
+              //       Role: roleChoice,
+              //       Manager: managerChoice,
+              //       "is Manager?": isManager,
+              //     },
+              //   ]);
+              returnToMainMenu();
+            }
+          );
+        })
+        .catch((err) => {
+          if (err) throw err;
+        });
+    });
 
     return connection
       .promise()
