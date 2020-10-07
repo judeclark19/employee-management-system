@@ -36,33 +36,19 @@ class AddMod {
       .query(
         "SELECT id, first_name, last_name, role_id FROM employees WHERE is_manager=1"
       );
-    // this.managers = connection
-    //   .promise()
-    //   .query(
-    //     "SELECT id, first_name, last_name, role_id FROM employees WHERE is_manager=1"
-    //   );
     this.departments = connection.promise().query("SELECT * FROM departments");
   }
 
   async addEmployee() {
-    //arrange existing roles from DB into arrays
-    // parseMod.parseRoles();
+    //parse role data into arrays
     this.roles.then((rolesData) => {
       for (var i = 0; i < rolesData[0].length; i++) {
         rolesTitles.push(rolesData[0][i].title);
         rolesIds.push(rolesData[0][i].id);
       }
     });
-    // this.employees.then((employeesData) => {
-    //   employeesData[0].forEach((employee) => {
-    //     var fullName = employee.first_name + " " + employee.last_name;
-    //     employeeNames.push(fullName);
-    //     employeesIds.push(employee.id);
-    //   });
-    // });
 
-    //arrange existing managers from DB into arrays
-    // parseMod.parseManagers();
+    //parse managers into arrays
     this.managers.then((managersData) => {
       for (var i = 0; i < managersData[0].length; i++) {
         var fullName =
@@ -119,71 +105,49 @@ class AddMod {
         managerChoice = response.newEmployeeManager;
         managerIdx = managersNames.indexOf(managerChoice);
         isManager = response.newEmpIsManager;
-        // addEmployee2();
-        // console.log(firstName, lastName, roleChoice);
-        // return;
       })
       .then(() => {
-        // console.log("THIS IS WHERE rtmm WILL OCCUR");
         if (managerChoice) {
-          connection
-            // .promise()
-            .query(
-              `INSERT INTO employees (first_name, last_name, role_id, manager_id, is_manager) VALUES ("${firstName}", "${lastName}", ${rolesIds[roleIdx]}, ${managersIds[managerIdx]}, ${isManager})`,
-              function (err, results) {
-                if (err) throw err;
-                console.log("Employee added:");
-                console.table([
-                  {
-                    "First name": firstName,
-                    "Last name": lastName,
-                    Role: roleChoice,
-                    Manager: managerChoice,
-                    "is Manager?": isManager,
-                  },
-                ]);
-                returnToMainMenu();
-              }
-            );
+          connection.query(
+            `INSERT INTO employees (first_name, last_name, role_id, manager_id, is_manager) VALUES ("${firstName}", "${lastName}", ${rolesIds[roleIdx]}, ${managersIds[managerIdx]}, ${isManager})`,
+            function (err, results) {
+              if (err) throw err;
+              console.log("Employee added:");
+              console.table([
+                {
+                  "First name": firstName,
+                  "Last name": lastName,
+                  Role: roleChoice,
+                  Manager: managerChoice,
+                  "is Manager?": isManager,
+                },
+              ]);
+              returnToMainMenu();
+            }
+          );
         } else {
-          // return (
-          connection
-            // .promise()
-            .query(
-              `INSERT INTO employees (first_name, last_name, role_id, is_manager) VALUES ("${firstName}", "${lastName}", ${rolesIds[roleIdx]}, ${isManager})`,
-              function (err, results) {
-                if (err) throw err;
-                console.log("Employee added:");
-                console.table([
-                  {
-                    "First name": firstName,
-                    "Last name": lastName,
-                    Role: roleChoice,
-                    "is Manager?": isManager,
-                  },
-                ]);
-                returnToMainMenu();
-              }
-            );
-          // );
+          connection.query(
+            `INSERT INTO employees (first_name, last_name, role_id, is_manager) VALUES ("${firstName}", "${lastName}", ${rolesIds[roleIdx]}, ${isManager})`,
+            function (err, results) {
+              if (err) throw err;
+              console.log("Employee added:");
+              console.table([
+                {
+                  "First name": firstName,
+                  "Last name": lastName,
+                  Role: roleChoice,
+                  "is Manager?": isManager,
+                },
+              ]);
+              returnToMainMenu();
+            }
+          );
         }
       });
-    // .then(() => {
-    //   returnToMainMenu();
-    // })
-    // .catch((err) => {
-    //   if (err) throw err;
-    // });
   }
 
-  // async addEmployee2() {
-  //   await this.addEmployee();
-  //   console.log("response from addemployee2");
-
-  // }
-
   addDepartment() {
-    //Parse data from DB into arrays
+    //Parse department data
     this.departments.then((departmentsData) => {
       for (var i = 0; i < departmentsData[0].length; i++) {
         deptNames.push(departmentsData[0][i].name);
@@ -210,7 +174,6 @@ class AddMod {
             returnToMainMenu();
           }
         );
-        //parse response and do a connection query insert
       })
       .catch((err) => {
         if (err) throw err;
